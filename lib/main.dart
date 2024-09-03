@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
+
+
+
 
 void main() {
   runApp(const MyApp());
@@ -7,17 +11,31 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  // This widget is the root of your application.   
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+
       theme: ThemeData(
+        fontFamily:'Decaydence', 
+        textTheme: const TextTheme(
+          displayLarge:  TextStyle(
+            fontSize: 72,
+            fontWeight: FontWeight.bold,
+          ),
+          titleLarge:  TextStyle( 
+            fontFamily: 'Decaydence',
+            fontSize: 30,
+            fontStyle: FontStyle.italic,
+          ),
         
+        ),
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 8, 230, 126)),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Mi Aplicacion'),
+      home: const MyHomePage(title: 'Mi Aplicación'),
     );
   }
 }
@@ -39,6 +57,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void _incrementCounter() {
     setState(() {
       _counter++;
+      var logger = Logger();
+      logger.d("Logger is working!");
     });
   }
   void _decrementCounter() {

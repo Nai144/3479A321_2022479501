@@ -28,6 +28,10 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  flutter_svg: ^2.0.10+1
+  google_fonts: ^6.2.1
+  logger: ^2.4.0
+
   flutter:
     sdk: flutter
 
@@ -57,7 +61,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
+assets:
+  - assets/icons/icons8-app.svg
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
@@ -74,6 +79,9 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+fonts:
+  - assets/fonts/Decaydence.otf
+  - assets/fonts/DecaydenceStraight.otf
   # fonts:
   #   - family: Schyler
   #     fonts:
