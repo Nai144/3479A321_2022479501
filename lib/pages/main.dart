@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 
 
 
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-
+      
       theme: ThemeData(
         fontFamily:'Decaydence', 
         textTheme: const TextTheme(
@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 8, 230, 126)),
         useMaterial3: true,
       ),
+      
       home: const MyHomePage(title: 'Mi Aplicación'),
     );
   }
@@ -81,6 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
        
         title: Text(widget.title),
+        
       ),
       body: Center(
       
@@ -94,54 +96,46 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            // const SizedBox(height: 20),
+             //SvgPicture.asset(
+              //'assets/icons/icons8-app.svg',
+              //height: 50,
+             // width: 50,
+             //)
           ],
         ),
       ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          _buildButtonIncrement(),
-          const SizedBox(height: 16), // Espacio entre los botones
-          _buildButtonDecrement(),
-          const SizedBox(height: 16),
-          _buildButtonReStart()
-        ],
-      ),  
+
+      floatingActionButton: _buildIncrementButton(),
+      persistentFooterButtons: [
+        _buildDecrementButton(),
+        _buildReStarButton(),   
+      ],    
        // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
-  FloatingActionButton _buildButtonReStart() {
-    return FloatingActionButton(
-          onPressed: _reStarCounter,
-          tooltip: 'Restart',
-          shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0),
-          ),
-          child: const Icon(Icons.exposure_zero),
-        );
+  ElevatedButton _buildReStarButton() {
+    return ElevatedButton(
+        onPressed: _reStarCounter,
+        child: const Icon(Icons.exposure_zero),
+      );
   }
 
-  FloatingActionButton _buildButtonDecrement() {
-    return FloatingActionButton(
-          onPressed: _decrementCounter,
-          tooltip: 'Decrement',
-          shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0),
-          ),
-          child: const Icon(Icons.exposure_minus_1),
-        );
+  ElevatedButton _buildDecrementButton() {
+    return ElevatedButton(
+        onPressed: _decrementCounter,
+        child: const Icon(Icons.exposure_minus_1),
+      );
   }
 
-  FloatingActionButton _buildButtonIncrement() {
+  FloatingActionButton _buildIncrementButton() {
     return FloatingActionButton(
-          onPressed: _incrementCounter,
-          tooltip: 'Increment',
-          shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0),
-          ),
-          child: const Icon(Icons.plus_one),
-          
-        );
+      onPressed: _incrementCounter,
+      tooltip: 'Incrementar',
+      child: const Icon(Icons.add),
+    );
   }
+
+  
 }
