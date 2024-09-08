@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,6 +8,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 void main() {
   runApp(const MyApp());
 }
+String iconExample = 'assets/icons/icons8-app.svg';
+String statusConditionText = 'Tu has pulsado el boton esta cantidad:';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -41,16 +44,15 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
-
-
   final String title;
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
+
+
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
@@ -58,24 +60,41 @@ class _MyHomePageState extends State<MyHomePage> {
   void _incrementCounter() {
     setState(() {
       _counter++;
-      var logger = Logger();
-      logger.d("Logger is working!");
+      if(10 <= _counter)
+      {
+        statusConditionText ='Haz Ganado!!!';
+      }
     });
   }
   void _decrementCounter() {
     setState(() {
       _counter--;
+      if(_counter <= -10)
+      {
+        statusConditionText ='Haz Perdido';
+      }
     });
   }
     void _reStarCounter() {
     setState(() {
       _counter=0;
+      var logger = Logger();
+      logger.d("Logger is working!");
     });
+  }
+  void _GoToDetailScreen(){
+      setState(() {
+        Navigator.push(context
+      , MaterialPageRoute(builder:(context)=> const DetailScreen()),
+      );
+      
+    });
+    
   }
 
   @override
   Widget build(BuildContext context) {
-  
+    
     return Scaffold(
       appBar: AppBar(
        
@@ -89,28 +108,58 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'Tu has pulsado el boton esta cantidad:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            // const SizedBox(height: 20),
-             //SvgPicture.asset(
-              //'assets/icons/icons8-app.svg',
-              //height: 50,
-             // width: 50,
-             //)
+            
+             const SizedBox(height: 20),
+            // SvgPicture.asset(
+            //  iconExample,
+            //  height: 50,
+            //  width: 50,
+           //  ),
+           Card(
+            child:Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                const ListTile(
+                  leading: Icon(Icons.account_tree_sharp),
+                  title: Text('Data Card'),
+                  
+                ),
+                Text (
+                  statusConditionText,
+                ),
+                Text(
+                  '$_counter',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    TextButton(
+                      onPressed: _incrementCounter,
+                      child: const Icon(Icons.add)
+                    ),
+                    TextButton(
+                      onPressed: _decrementCounter,
+                      child: const Icon(Icons.exposure_minus_1)
+                    ),
+                    TextButton(
+                      onPressed: _reStarCounter,
+                      child: const Icon(Icons.exposure_zero)
+                    ),
+                  ],
+                ),
+                FloatingActionButton(
+                onPressed: _GoToDetailScreen,
+                child: const Icon(Icons.grain_outlined),
+              ),
+              ],
+              
+            )
+           )
+            
           ],
         ),
-      ),
-
-      floatingActionButton: _buildIncrementButton(),
-      persistentFooterButtons: [
-        _buildDecrementButton(),
-        _buildReStarButton(),   
-      ],    
+      ),   
        // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
@@ -133,9 +182,31 @@ class _MyHomePageState extends State<MyHomePage> {
     return FloatingActionButton(
       onPressed: _incrementCounter,
       tooltip: 'Incrementar',
-      child: const Icon(Icons.add),
+      child: SvgPicture.asset(iconExample,width: 20,),
     );
   }
 
   
+}
+
+class DetailScreen extends StatelessWidget{
+  const DetailScreen({super.key});
+  
+  void _goToMainScreen(BuildContext context){
+    Navigator.pop( context);  
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('First Screen'),
+      ),
+      body: Center(
+        child: TextButton(
+          onPressed: () => _goToMainScreen(context),
+          child: const Icon(Icons.arrow_back_ios_new_outlined),      
+        ),
+      ),
+    );
+  }
 }
