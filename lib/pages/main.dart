@@ -192,18 +192,59 @@ class _MyHomePageState extends State<MyHomePage> {
 class DetailScreen extends StatelessWidget{
   const DetailScreen({super.key});
   
+ // BuildContext? get context => null;
+  
   void _goToMainScreen(BuildContext context){
+    Navigator.pop( context);  
+  }
+
+  void _goToAboutScreen(BuildContext context){
+       Navigator.push(context
+      , MaterialPageRoute(builder:(context)=> const AboutScreen()),
+      );
+    
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Detail Screen'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            TextButton(
+              onPressed: () => _goToAboutScreen(context),
+              child: const Icon(Icons.info_outline_rounded),
+            ),  
+            TextButton(onPressed: () => _goToMainScreen(context),
+             child: const Icon(Icons.arrow_back_ios_new_outlined))
+
+          ],
+        ),
+          
+      ),
+    );
+  }
+}
+
+class AboutScreen extends StatelessWidget{
+  const AboutScreen({super.key});
+
+  
+  void _goToDetailScreen(BuildContext context){
     Navigator.pop( context);  
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('First Screen'),
+        title: const Text('About Screen'),
       ),
       body: Center(
         child: TextButton(
-          onPressed: () => _goToMainScreen(context),
+          onPressed: () => _goToDetailScreen(context),
           child: const Icon(Icons.arrow_back_ios_new_outlined),      
         ),
       ),
