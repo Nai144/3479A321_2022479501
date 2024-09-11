@@ -55,7 +55,7 @@ class MyHomePage extends StatefulWidget {
 
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  int _counter = 6;
 
   void _incrementCounter() {
     setState(() {
@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _decrementCounter() {
     setState(() {
       _counter--;
-      if(_counter <= -10)
+      if(_counter <= 5)
       {
         statusConditionText ='Haz Perdido';
       }
