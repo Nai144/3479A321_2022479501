@@ -82,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
       logger.d("Logger is working!");
     });
   }
-  void _GoToDetailScreen(){
+  void _goToDetailScreen(){
       setState(() {
         Navigator.push(context
       , MaterialPageRoute(builder:(context)=> const DetailScreen()),
@@ -149,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
                 FloatingActionButton(
-                onPressed: _GoToDetailScreen,
+                onPressed: _goToDetailScreen,
                 child: const Icon(Icons.grain_outlined),
               ),
               ],
@@ -164,46 +164,22 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  ElevatedButton _buildReStarButton() {
-    return ElevatedButton(
-        onPressed: _reStarCounter,
-        child: const Icon(Icons.exposure_zero),
-      );
+}
+
+class DetailScreen extends StatelessWidget {
+  const DetailScreen({super.key});
+
+  void _goToMainScreen(BuildContext context) {
+    Navigator.pop(context);
   }
 
-  ElevatedButton _buildDecrementButton() {
-    return ElevatedButton(
-        onPressed: _decrementCounter,
-        child: const Icon(Icons.exposure_minus_1),
-      );
-  }
-
-  FloatingActionButton _buildIncrementButton() {
-    return FloatingActionButton(
-      onPressed: _incrementCounter,
-      tooltip: 'Incrementar',
-      child: SvgPicture.asset(iconExample,width: 20,),
+  void _goToAboutScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const AboutScreen()),
     );
   }
 
-  
-}
-
-class DetailScreen extends StatelessWidget{
-  const DetailScreen({super.key});
-  
- // BuildContext? get context => null;
-  
-  void _goToMainScreen(BuildContext context){
-    Navigator.pop( context);  
-  }
-
-  void _goToAboutScreen(BuildContext context){
-       Navigator.push(context
-      , MaterialPageRoute(builder:(context)=> const AboutScreen()),
-      );
-    
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -214,28 +190,50 @@ class DetailScreen extends StatelessWidget{
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            TextButton(
-              onPressed: () => _goToAboutScreen(context),
-              child: const Icon(Icons.info_outline_rounded),
-            ),  
-            TextButton(onPressed: () => _goToMainScreen(context),
-             child: const Icon(Icons.arrow_back_ios_new_outlined))
+            const Card(
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    Text(
+                      'Pantalla de detalles',
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 60), 
 
+            // Row con los dos botones
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextButton(
+                  onPressed: () => _goToMainScreen(context),
+                  child: const Icon(Icons.arrow_back_ios_new_outlined),
+                ),
+                const SizedBox(width: 20), 
+                TextButton(   
+                  onPressed: () => _goToAboutScreen(context),
+                  child: const Icon(Icons.info_outline_rounded),
+                ),
+              ],
+            ),
           ],
         ),
-          
       ),
     );
   }
 }
 
-class AboutScreen extends StatelessWidget{
+class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
 
-  
-  void _goToDetailScreen(BuildContext context){
-    Navigator.pop( context);  
+  void _goToDetailScreen(BuildContext context) {
+    Navigator.pop(context);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -243,9 +241,31 @@ class AboutScreen extends StatelessWidget{
         title: const Text('About Screen'),
       ),
       body: Center(
-        child: TextButton(
-          onPressed: () => _goToDetailScreen(context),
-          child: const Icon(Icons.arrow_back_ios_new_outlined),      
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            // Card con texto "Pantalla de información"
+            const Card(
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    Text(
+                      'Pantalla de información',
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 20), 
+
+  
+            TextButton(
+              onPressed: () => _goToDetailScreen(context),
+              child: const Icon(Icons.arrow_back_ios_new_outlined),
+            ),
+          ],
         ),
       ),
     );
