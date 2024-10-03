@@ -55,7 +55,7 @@ class MyHomePage extends StatefulWidget {
 
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 6;
+  int _counter = 0;
 
   void _incrementCounter() {
     setState(() {
@@ -64,12 +64,16 @@ class _MyHomePageState extends State<MyHomePage> {
       {
         statusConditionText ='Haz Ganado!!!';
       }
+      if(_counter == 5)
+      {
+        statusConditionText ='Haz Perdido';
+      }
     });
   }
   void _decrementCounter() {
     setState(() {
       _counter--;
-      if(_counter <= 5)
+      if(_counter == 5)
       {
         statusConditionText ='Haz Perdido';
       }
@@ -78,6 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
     void _reStarCounter() {
     setState(() {
       _counter=0;
+      statusConditionText ='Comenzar nuevamente';
       var logger = Logger();
       logger.d("Logger is working!");
     });
@@ -107,8 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
       
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            
+          children: <Widget>[         
              const SizedBox(height: 20),
             // SvgPicture.asset(
             //  iconExample,
@@ -121,8 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 const ListTile(
                   leading: Icon(Icons.account_tree_sharp),
-                  title: Text('Data Card'),
-                  
+                  title: Text('Data Card'),                  
                 ),
                 Text (
                   statusConditionText,
@@ -134,24 +137,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    TextButton(
-                      onPressed: _incrementCounter,
-                      child: const Icon(Icons.add)
-                    ),
-                    TextButton(
-                      onPressed: _decrementCounter,
-                      child: const Icon(Icons.exposure_minus_1)
-                    ),
-                    TextButton(
-                      onPressed: _reStarCounter,
-                      child: const Icon(Icons.exposure_zero)
-                    ),
+                    _createIncrementButton(),
+                    _createDecrementButton(),
+                    _createReStartButton(),
                   ],
                 ),
-                FloatingActionButton(
-                onPressed: _goToDetailScreen,
-                child: const Icon(Icons.grain_outlined),
-              ),
+                _creteGoToDetailScreenButton(),
               ],
               
             )
@@ -162,6 +153,34 @@ class _MyHomePageState extends State<MyHomePage> {
       ),   
        // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  FloatingActionButton _creteGoToDetailScreenButton() {
+    return FloatingActionButton(
+              onPressed: _goToDetailScreen,
+              child: const Icon(Icons.grain_outlined),
+            );
+  }
+
+  TextButton _createReStartButton() {
+    return TextButton(
+                    onPressed: _reStarCounter,
+                    child: const Icon(Icons.exposure_zero)
+                  );
+  }
+
+  TextButton _createDecrementButton() {
+    return TextButton(
+                    onPressed: _decrementCounter,
+                    child: const Icon(Icons.exposure_minus_1)
+                  );
+  }
+
+  TextButton _createIncrementButton() {
+    return TextButton(
+                    onPressed: _incrementCounter,
+                    child: const Icon(Icons.add)
+                  );
   }
 
 }
@@ -204,7 +223,6 @@ class DetailScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 60), 
-
             // Row con los dos botones
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
