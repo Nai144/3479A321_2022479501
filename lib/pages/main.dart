@@ -49,13 +49,26 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
   final String title;
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyHomePage> createState(){
+    final Logger loggerState = Logger();
+    loggerState.i("Create State!");
+    return  _MyHomePageState();
+    }
 }
 
 
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  final Logger logger = Logger();
+
+  
+  @override
+  void initState() {
+    super.initState();
+    var logger = Logger();
+    logger.d("Logger is working!");
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -96,6 +109,13 @@ class _MyHomePageState extends State<MyHomePage> {
     });
     
   }
+  void _goToAuditoriaScreen(){
+    setState(() {
+      Navigator.push(context
+      , MaterialPageRoute(builder: (context)=>const AuditoriaScreen())
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,6 +127,47 @@ class _MyHomePageState extends State<MyHomePage> {
        
         title: Text(widget.title),
         
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text('Menú'),
+            ),
+            ListTile(
+              title: const Text('Contador'),
+              onTap: () {
+                Navigator.pop(context);
+                // Acción para la Opción 1
+              },
+            ),
+            ListTile(
+              title: const Text('Detalle'),
+              onTap: () {
+                Navigator.pop(context);
+                // Acción para la Opción 2
+              },
+            ),
+            ListTile(
+              title: const Text('Sobre'),
+              onTap: () {
+                Navigator.pop(context);
+                // Acción para la Opción 3
+              },
+            ),
+            ListTile(
+              title: const Text('Auditoria'),
+              onTap: () {
+                _goToAuditoriaScreen();
+                
+              },
+            ),
+          ],
+        ),
       ),
       body: Center(
       
@@ -285,6 +346,42 @@ class AboutScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class AuditoriaScreen extends StatelessWidget {
+  const AuditoriaScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // Lista de elementos de auditoría
+    final List<String> auditItems = [
+      'Item 1',
+      'Item 2',
+      'Item 3',
+      'Item 4',
+      'Item 5',
+      'Item 6',
+      'Item 7',
+      'Item 8',
+    ];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Auditoria'),
+      ),
+      body: ListView.builder(
+        itemCount: auditItems.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(auditItems[index]),
+            onTap: () {
+              
+            },
+          );
+        },
       ),
     );
   }
