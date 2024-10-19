@@ -1,12 +1,15 @@
 
 import 'package:flutter/material.dart';
+import 'package:laboratorio_modulo/pages/preferencesScreen.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
+
 }
 String iconExample = 'assets/icons/icons8-app.svg';
 String statusConditionText = 'Tu has pulsado el boton esta cantidad:';
@@ -49,13 +52,38 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
   final String title;
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyHomePage> createState(){
+    final Logger loggerState = Logger();
+    loggerState.i("Create State!");
+    return  _MyHomePageState();
+    }
 }
 
 
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  final Logger logger = Logger();
+  String _username = '';
+  double _counterValue = 0;
+
+  Future<void> _loadPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _username = prefs.getString('username') ?? 'Usuario';
+      _counterValue = prefs.getDouble('counterValue') ?? 0;
+    });
+  }
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadPreferences();
+    var logger = Logger();
+    logger.d("Logger is working!");
+  }
+
+  
 
   void _incrementCounter() {
     setState(() {
@@ -96,6 +124,13 @@ class _MyHomePageState extends State<MyHomePage> {
     });
     
   }
+  void _goToAuditoriaScreen(){
+    setState(() {
+      Navigator.push(context
+      , MaterialPageRoute(builder: (context)=>const AuditoriaScreen())
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,6 +143,63 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         
       ),
+      
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text('Menú'),
+            ),
+            ListTile(
+              title: const Text('Contador'),
+              onTap: () {
+                Navigator.pop(context);
+                // Acción para la Opción 1
+              },
+            ),
+            ListTile(
+              title: const Text('Detalle'),
+              onTap: () {
+                Navigator.pop(context);
+                // Acción para la Opción 2
+              },
+            ),
+            ListTile(
+              title: const Text('Sobre'),
+              onTap: () {
+                Navigator.pop(context);
+                // Acción para la Opción 3
+              },
+            ),
+            ListTile(
+              title: const Text('Auditoria'),
+              onTap: () {
+                _goToAuditoriaScreen();
+                
+              },
+            ),
+            ListTile(
+              title: const Text('Preferences'),
+              onTap: () async {
+                bool? result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PreferencesScreen()),
+                );
+                // Si el resultado es true, recargar las preferencias
+                if (result == true) {
+                  _loadPreferences();
+                }
+              },
+            ),
+          ],
+        ),
+      ),
+      
+    
       body: Center(
       
         child: Column(
@@ -143,6 +235,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
                 _creteGoToDetailScreenButton(),
+                Text('Bienvenido, $_username', style: TextStyle(fontSize: 24)),
+            SizedBox(height: 16),
+            Text('Valor del Contador: ${_counterValue.toInt()}', style: TextStyle(fontSize: 18)),
+            SizedBox(height: 24),
               ],
               
             )
@@ -285,6 +381,42 @@ class AboutScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class AuditoriaScreen extends StatelessWidget {
+  const AuditoriaScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // Lista de elementos de auditoría
+    final List<String> auditItems = [
+      'Item 1',
+      'Item 2',
+      'Item 3',
+      'Item 4',
+      'Item 5',
+      'Item 6',
+      'Item 7',
+      'Item 8',
+    ];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Auditoria'),
+      ),
+      body: ListView.builder(
+        itemCount: auditItems.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(auditItems[index]),
+            onTap: () {
+              
+            },
+          );
+        },
       ),
     );
   }
