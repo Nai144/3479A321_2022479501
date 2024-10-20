@@ -1,15 +1,12 @@
 
 import 'package:flutter/material.dart';
-import 'package:laboratorio_modulo/pages/preferencesScreen.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
-
 }
 String iconExample = 'assets/icons/icons8-app.svg';
 String statusConditionText = 'Tu has pulsado el boton esta cantidad:';
@@ -64,26 +61,14 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   final Logger logger = Logger();
-  String _username = '';
-  double _counterValue = 0;
 
-  Future<void> _loadPreferences() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _username = prefs.getString('username') ?? 'Usuario';
-      _counterValue = prefs.getDouble('counterValue') ?? 0;
-    });
-  }
   
   @override
   void initState() {
     super.initState();
-    _loadPreferences();
     var logger = Logger();
     logger.d("Logger is working!");
   }
-
-  
 
   void _incrementCounter() {
     setState(() {
@@ -143,7 +128,6 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
         
       ),
-      
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -182,24 +166,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 
               },
             ),
-            ListTile(
-              title: const Text('Preferences'),
-              onTap: () async {
-                bool? result = await Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => PreferencesScreen()),
-                );
-                // Si el resultado es true, recargar las preferencias
-                if (result == true) {
-                  _loadPreferences();
-                }
-              },
-            ),
           ],
         ),
       ),
-      
-    
       body: Center(
       
         child: Column(
@@ -235,10 +204,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
                 _creteGoToDetailScreenButton(),
-                Text('Bienvenido, $_username', style: TextStyle(fontSize: 24)),
-            SizedBox(height: 16),
-            Text('Valor del Contador: ${_counterValue.toInt()}', style: TextStyle(fontSize: 18)),
-            SizedBox(height: 24),
               ],
               
             )
