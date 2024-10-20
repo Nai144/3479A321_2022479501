@@ -10,7 +10,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
   String _username = '';
   double _counterValue = 0;
 
-  // Método para cargar las preferencias
+  // cargar las preferencias
   Future<void> _loadPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -19,7 +19,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
     });
   }
 
-  // Método para guardar las preferencias
+  // guardar las preferencias
   Future<void> _savePreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('username', _username);
